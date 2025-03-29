@@ -1,18 +1,17 @@
-import React, { useEffect, useState,useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
-import { addToPastes, updateToPaste } from '../Redux/PasteSlice';
+import React, { useEffect, useState, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { addToPastes, updateToPaste } from "../Redux/PasteSlice";
 
 const Home = () => {
-  const [title, setTitle] = useState('');
-  const [value, setValue] = useState('');
+  const [title, setTitle] = useState("");
+  const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const pasteId = searchParams.get('pasteId');
+  const pasteId = searchParams.get("pasteId");
 
   const dispatch = useDispatch();
   const allPastes = useSelector((state) => state.Paste?.pastes ?? []);
   const pastesMemoized = useMemo(() => allPastes, [allPastes]);
-  
 
   useEffect(() => {
     if (pasteId) {
@@ -26,7 +25,7 @@ const Home = () => {
 
   function createOrUpdatePaste() {
     if (!title.trim() || !value.trim()) {
-      return alert('Title and content cannot be empty!');
+      return alert("Title and content cannot be empty!");
     }
 
     const paste = {
@@ -42,16 +41,16 @@ const Home = () => {
       dispatch(addToPastes(paste));
     }
 
-    setTitle('');
-    setValue('');
+    setTitle("");
+    setValue("");
     setSearchParams({});
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-center mb-4 text-gray-800">
-          {pasteId ? 'Update Paste' : 'Create My Paste'}
+    <div className="flex  flex-col items-center justify-center h-[90vh] bg-purple-500  p-4">
+      <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-xl shadow-2xl w-full max-w-lg">
+        <h1 className="text-3xl font-semibold text-center mb-6 text-gray-900">
+          {pasteId ? "Update Paste" : "Create My Paste"}
         </h1>
 
         {/* Title Input */}
@@ -73,10 +72,10 @@ const Home = () => {
 
         {/* Button */}
         <button
-          className="w-full mt-5 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 active:scale-95 transition-all duration-300 shadow-md"
+          className="w-full mt-5 bg-purple-600 cursor-pointer text-white py-3 rounded-lg font-semibold hover:bg-purple-700 active:scale-95 transition-all duration-300 shadow-lg"
           onClick={createOrUpdatePaste}
         >
-          {pasteId ? 'Update Paste' : 'Create My Paste'}
+          {pasteId ? "Update Paste" : "Create My Paste"}
         </button>
       </div>
     </div>
@@ -84,6 +83,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
- 
