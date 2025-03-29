@@ -14,7 +14,7 @@ const ViewPaste = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-[90vh] bg-purple-500 p-4">
+    <div className="flex flex-col items-center justify-center h-[90vh] bg-purple-500 p-12">
       <div className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-4">{paste.title}</h2>
 

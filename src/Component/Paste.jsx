@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { removePaste } from "../Redux/PasteSlice";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
- 
 
 const Paste = () => {
   const dispatch = useDispatch();
   const [searchItem, setSearchItem] = useState("");
-
   const pastes = useSelector((state) => state.Paste?.pastes ?? []);
 
   const filteredData = useMemo(() => {
@@ -28,7 +26,8 @@ const Paste = () => {
   };
 
   return (
-    <div className="p-4 bg-purple-500  min-h-screen flex flex-col items-center">
+    <div className="p-12 md:p-12 bg-purple-500 min-h-screen flex flex-col items-center">
+      {/* Search Bar */}
       <div className="w-full max-w-md">
         <input
           className="w-full p-3 border border-white bg-white text-black rounded-md focus:ring-2 focus:ring-white shadow-sm"
@@ -39,6 +38,7 @@ const Paste = () => {
         />
       </div>
 
+      {/* Paste List */}
       <div className="mt-4 w-full max-w-lg text-center space-y-4">
         {filteredData.length > 0 ? (
           filteredData.map((paste) => (
@@ -56,41 +56,45 @@ const Paste = () => {
                 </span>
               </div>
 
+              {/* Action Buttons */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                 <Link to={`/?pasteId=${paste?._id}`}>
-                  <button className="text-white bg-blue-600 border-2 border-blue-700 text-sm px-2 py-1 rounded-md hover:bg-blue-500 transition w-full">
-                    Edit
+                  <button className="text-white font-bold border-2 border-black text-sm px-2 py-1 bg-blue-500 rounded-md hover:bg-blue-400 transition w-full">
+                    <span className="block md:hidden">Edit</span>
+                  
+                    <span className="hidden md:block">Edit the text</span>
+                
                   </button>
                 </Link>
                 <Link to={`/pastes/${paste?._id}`}>
-                  <button className="text-white bg-green-600 border-2 border-green-700 text-sm px-2 py-1 rounded-md hover:bg-green-500 transition w-full">
-                    View
+                  <button className="text-white border-2 font-bold  border-black text-sm px-2 py-1 bg-green-500 rounded-md hover:bg-green-400 transition w-full">
+                  <span className="block md:hidden">view</span>
+                  <span className="md:block hidden">view the text</span>
                   </button>
                 </Link>
                 <button
-                  className="text-white bg-gray-600 border-2 border-gray-700 text-sm px-2 py-1 rounded-md hover:bg-gray-500 transition w-full"
+                  className="text-white border-2 font-bold  border-black text-sm px-2 py-1 bg-gray-500 rounded-md hover:bg-gray-400 transition w-full"
                   onClick={() => {
                     navigator.clipboard.writeText(paste?.content);
                     toast.success("Copied to clipboard!");
                   }}
                 >
-                  Copy
+               <span className="block md:hidden">Copy</span>
+               <span className="md:block hidden">Copy the text</span>
                 </button>
-              </div>
-
-              {/* Centered Delete and Share buttons */}
-              <div className="flex justify-center gap-3 mt-2">
                 <button
-                  className="text-white bg-red-600 border-2 border-red-700 text-sm px-12 py-1 rounded-md hover:bg-red-500 transition"
+                  className="text-white border-2 font-bold  border-black text-sm px-2 py-1 bg-red-500  rounded-md hover:bg-red-400 transition w-full"
                   onClick={() => handleDelete(paste?._id)}
                 >
-                  Delete
+                 <span className="block md:hidden">Delete</span>
+                 <span className="md:block hidden">Delete the text</span>
                 </button>
                 <button
-                  className="text-white bg-purple-700 border-2 border-purple-800 text-sm px-12 py-1 rounded-md hover:bg-purple-600 transition"
+                  className="text-white border-2 font-bold  border-black text-sm px-2 py-1 bg-purple-500 rounded-md hover:bg-purple-400 transition w-full col-span-2 md:col-span-1"
                   onClick={() => generateShareLink(paste?._id)}
                 >
-                  Share
+                   <span className="block md:hidden">Share</span>
+                   <span className="md:block hidden">Share the text</span>
                 </button>
               </div>
             </div>

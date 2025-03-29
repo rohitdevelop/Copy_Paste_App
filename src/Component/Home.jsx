@@ -47,8 +47,8 @@ const Home = () => {
   }
 
   return (
-    <div className="flex  flex-col items-center justify-center h-[90vh] bg-purple-500  p-4">
-      <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-xl shadow-2xl w-full max-w-lg">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-500 p-12">
+      <div className="bg-white bg-opacity-80 backdrop-blur-lg p-6 rounded-xl shadow-2xl w-full max-w-lg sm:max-w-md md:max-w-lg lg:max-w-xl">
         <h1 className="text-3xl font-semibold text-center mb-6 text-gray-900">
           {pasteId ? "Update Paste" : "Create My Paste"}
         </h1>
