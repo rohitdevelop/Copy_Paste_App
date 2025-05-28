@@ -13,7 +13,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/pastes" element={<Paste />} />
-        <Route path="/pastes/:id" element={<ViewPaste />} /> {/* ✅ Dynamic route */}
+        <Route path="/pastes/:id" element={<ViewPaste />} /> 
       </Routes>
     </>
   );
