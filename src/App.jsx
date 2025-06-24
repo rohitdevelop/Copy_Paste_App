@@ -35,8 +35,8 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/pastes" element={<Paste />} />
-          <Route path="/pastes/:id" element={<ViewPaste />} />
+          <Route path="/tasks" element={<Paste />} />
+          <Route path="/tasks/:id" element={<ViewPaste />} />
         </Routes>
       </div>
     </Themecontext.Provider>

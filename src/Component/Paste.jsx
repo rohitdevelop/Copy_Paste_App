@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { removePaste } from "../Redux/PasteSlice";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-import { Themecontext } from "../App"; // 🟡 Import context
+import { Themecontext } from "../App";
+
+import { FaEdit, FaEye, FaTrash, FaCopy, FaShareAlt } from "react-icons/fa";
 
 const Paste = () => {
   const dispatch = useDispatch();
   const [searchItem, setSearchItem] = useState("");
   const pastes = useSelector((state) => state.Paste?.pastes ?? []);
-  const { theme } = useContext(Themecontext); // 🟡 Get current theme
+  const { theme } = useContext(Themecontext);
 
   const filteredData = useMemo(() => {
     return pastes.filter((paste) =>
@@ -29,84 +31,88 @@ const Paste = () => {
 
   return (
     <div
-      className={`p-12 md:p-12 min-h-screen flex flex-col items-center transition-all duration-300 ${
-        theme === "dark" ? "bg-black text-white" : "bg-purple-100 text-black"
+      className={`p-6 md:p-12 min-h-screen flex flex-col items-center transition-all duration-300 ${
+        theme === "dark" ? "bg-black text-white" : "bg-gray-50 text-black"
       }`}
     >
       {/* Search Bar */}
       <div className="w-full max-w-md">
         <input
-          className="w-full p-3 border border-gray-400 rounded-md focus:ring-2 focus:ring-purple-500 shadow-sm bg-white text-black"
+          className="w-full p-3 border border-gray-400 rounded-md focus:ring-2  shadow-sm bg-white text-black"
           type="search"
-          placeholder="Search pastes..."
+          placeholder="Search Tasks..."
           value={searchItem}
           onChange={(e) => setSearchItem(e.target.value)}
         />
       </div>
 
       {/* Paste List */}
-      <div className="mt-4 w-full max-w-lg text-center space-y-4">
+      <div className="mt-4 w-full max-w-5xl grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {filteredData.length > 0 ? (
           filteredData.map((paste) => (
             <div
               key={paste._id}
-              className={`shadow-md rounded-lg p-3 flex flex-col gap-2 transition ${
+              className={`shadow-lg rounded-xl p-4 flex flex-col gap-3 transition-all duration-300 ${
                 theme === "dark"
-                  ? "bg-gray-900 text-white"
+                  ? "bg-[#1e1e1e] text-white"
                   : "bg-white text-black"
-              }`}
+              } hover:scale-[1.02] hover:shadow-2xl`}
             >
               <div>
-                <h2 className="text-lg font-semibold truncate">{paste.title}</h2>
-                <p className="text-sm truncate">{paste.content}</p>
+                <h2 className="text-xl font-semibold truncate mb-1">{paste.title}</h2>
+                <p className="text-sm text-gray-500 truncate mb-1">{paste.content}</p>
                 <span className="text-xs text-gray-400">
                   {new Date(paste.createdAt).toLocaleString()}
                 </span>
               </div>
 
               {/* Action Buttons */}
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                <Link to={`/?pasteId=${paste?._id}`}>
-                  <button className="text-white font-bold border-2 border-black text-sm px-2 py-1 bg-blue-500 rounded-md hover:bg-blue-400 transition w-full">
-                    <span className="block md:hidden">Edit</span>
-                    <span className="hidden md:block">Edit the text</span>
+              <div className="flex justify-between gap-2 mt-2">
+                <Link to={`/?tasksId=${paste?._id}`}>
+                  <button
+                    className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md transition"
+                    title="Edit"
+                  >
+                    <FaEdit />
                   </button>
                 </Link>
-                <Link to={`/pastes/${paste?._id}`}>
-                  <button className="text-white font-bold border-2 border-black text-sm px-2 py-1 bg-green-500 rounded-md hover:bg-green-400 transition w-full">
-                    <span className="block md:hidden">View</span>
-                    <span className="hidden md:block">View the text</span>
+                <Link to={`/tasks/${paste?._id}`}>
+                  <button
+                    className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg shadow-md transition"
+                    title="View"
+                  >
+                    <FaEye />
                   </button>
                 </Link>
                 <button
-                  className="text-white font-bold border-2 border-black text-sm px-2 py-1 bg-gray-500 rounded-md hover:bg-gray-400 transition w-full"
+                  className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded-lg shadow-md transition"
                   onClick={() => {
                     navigator.clipboard.writeText(paste?.content);
                     toast.success("Copied to clipboard!");
                   }}
+                  title="Copy"
                 >
-                  <span className="block md:hidden">Copy</span>
-                  <span className="hidden md:block">Copy the text</span>
+                  <FaCopy />
                 </button>
                 <button
-                  className="text-white font-bold border-2 border-black text-sm px-2 py-1 bg-red-500 rounded-md hover:bg-red-400 transition w-full"
+                  className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md transition"
                   onClick={() => handleDelete(paste?._id)}
+                  title="Delete"
                 >
-                  <span className="block md:hidden">Delete</span>
-                  <span className="hidden md:block">Delete the text</span>
+                  <FaTrash />
                 </button>
                 <button
-                  className="text-white font-bold border-2 border-black text-sm px-2 py-1 bg-purple-500 rounded-md hover:bg-purple-400 transition w-full col-span-2 md:col-span-1"
+                  className="bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-lg shadow-md transition"
                   onClick={() => generateShareLink(paste?._id)}
+                  title="Share"
                 >
-                  <span className="block md:hidden">Share</span>
-                  <span className="hidden md:block">Share the text</span>
+                  <FaShareAlt />
                 </button>
               </div>
             </div>
           ))
         ) : (
-          <p className="text-gray-300 text-center py-4">No matching pastes found.</p>
+          <p className="text-gray-400 text-center col-span-full">No matching tasks found.</p>
         )}
       </div>
     </div>

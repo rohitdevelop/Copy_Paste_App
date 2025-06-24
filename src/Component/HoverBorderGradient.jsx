@@ -58,7 +58,7 @@ const lightGradients = {
       <motion.div
         className="absolute inset-0 rounded-2xl z-0"
 style={{
-  filter: theme === "light" ? "blur(20px)" : "blur(20px)",
+  filter: theme === "light" ? "blur(10px)" : "blur(20px)",
 }}
         animate={{
           background: hovered
