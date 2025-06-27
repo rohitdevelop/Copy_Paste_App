@@ -2,6 +2,8 @@ import React, { useState, useMemo, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removePaste } from "../Redux/PasteSlice";
 import toast from "react-hot-toast";
+import { CiAlarmOn } from "react-icons/ci";
+import { toggleReminder } from "../Redux/PasteSlice";
 import { Link } from "react-router-dom";
 import { Themecontext } from "../App";
 
@@ -59,8 +61,28 @@ const Paste = () => {
               } hover:scale-[1.02] hover:shadow-2xl`}
             >
               <div>
-                <h2 className="text-xl font-semibold truncate mb-1">{paste.title}</h2>
-                <p className="text-sm text-gray-500 truncate mb-1">{paste.content}</p>
+                <h2 className="text-xl font-semibold truncate mb-1 flex justify-between items-center">
+                  <span className="truncate">{paste.title}</span>
+                  <span
+                    className={`cursor-pointer text-2xl transition duration-300 ${
+                      paste.isReminderEnabled
+                        ? "text-yellow-400"
+                        : "text-gray-400"
+                    }`}
+                    onClick={() => dispatch(toggleReminder(paste._id))}
+                    title={
+                      paste.isReminderEnabled
+                        ? "Reminder is ON. Click to turn OFF."
+                        : "Reminder is OFF. Click to turn ON."
+                    }
+                  >
+                    <CiAlarmOn />
+                  </span>
+                </h2>
+
+                <p className="text-sm text-gray-500 truncate mb-1">
+                  {paste.content}
+                </p>
                 <span className="text-xs text-gray-400">
                   {new Date(paste.createdAt).toLocaleString()}
                 </span>
@@ -70,7 +92,7 @@ const Paste = () => {
               <div className="flex justify-between gap-2 mt-2">
                 <Link to={`/?tasksId=${paste?._id}`}>
                   <button
-                    className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg shadow-md transition"
+                    className="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white p-2 rounded-lg shadow-md transition"
                     title="Edit"
                   >
                     <FaEdit />
@@ -78,14 +100,14 @@ const Paste = () => {
                 </Link>
                 <Link to={`/tasks/${paste?._id}`}>
                   <button
-                    className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg shadow-md transition"
+                    className="bg-green-500 cursor-pointer hover:bg-green-600 text-white p-2 rounded-lg shadow-md transition"
                     title="View"
                   >
                     <FaEye />
                   </button>
                 </Link>
                 <button
-                  className="bg-gray-500 hover:bg-gray-600 text-white p-2 rounded-lg shadow-md transition"
+                  className="bg-gray-500 cursor-pointer hover:bg-gray-600 text-white p-2 rounded-lg shadow-md transition"
                   onClick={() => {
                     navigator.clipboard.writeText(paste?.content);
                     toast.success("Copied to clipboard!");
@@ -95,14 +117,14 @@ const Paste = () => {
                   <FaCopy />
                 </button>
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg shadow-md transition"
+                  className="bg-red-500 cursor-pointer hover:bg-red-600 text-white p-2 rounded-lg shadow-md transition"
                   onClick={() => handleDelete(paste?._id)}
                   title="Delete"
                 >
                   <FaTrash />
                 </button>
                 <button
-                  className="bg-purple-500 hover:bg-purple-600 text-white p-2 rounded-lg shadow-md transition"
+                  className="bg-purple-500 cursor-pointer hover:bg-purple-600 text-white p-2 rounded-lg shadow-md transition"
                   onClick={() => generateShareLink(paste?._id)}
                   title="Share"
                 >
@@ -112,7 +134,9 @@ const Paste = () => {
             </div>
           ))
         ) : (
-          <p className="text-gray-400 text-center col-span-full">No matching tasks found.</p>
+          <p className="text-gray-400 text-center col-span-full">
+            No matching tasks found.
+          </p>
         )}
       </div>
     </div>
